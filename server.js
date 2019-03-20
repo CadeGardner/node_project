@@ -11,7 +11,9 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.get('/QuizBuilder', getQuizBuilder);
+app.get('/keys', key_sig_info);
+app.get('/timesignatures', time_sig_info);
+app.get('/accidentals', accidental_info);
 app.listen(port, function() {
   console.log('Server listening on: ' + port);
 });
@@ -24,14 +26,14 @@ function getQuizBuilder(req, res) {
   //res.write(time_sig_info());
   //res.write(key_sig_info());
   //res.write(accidental_info());
-  console.log(time);
-  console.log(key);
-  console.log(accidental);
+  // console.log(time);
+  // console.log(key);
+  // console.log(accidental);
   res.write("Please View the Console");
   res.end();
 }
 
-function key_sig_info(){
+function key_sig_info(req, res){
   var sql = "SELECT name FROM key_sig";
   var key_sig_string = "";
   pool.query(sql, function(err, db_res) {
@@ -42,14 +44,15 @@ function key_sig_info(){
       console.log(db_res.rows);
       var results = db_res.rows;
       results.forEach((v)=>{
-        key_sig_string += "<option value='"+ v.name +"'>"+ v.name + "</option>";
+        key_sig_string += "<option value='"+ v.name +"'>"+ v.name + "</option>\n";
       });
-      return key_sig_string;
+      res.write(key_sig_string);
+      res.end();
     }
   });
 }
 
-function time_sig_info(){
+function time_sig_info(req, res){
   var sql = "SELECT signature FROM time_sig";
   var time_sig_string = "";
   pool.query(sql, function(err, db_res) {
@@ -61,15 +64,16 @@ function time_sig_info(){
       var results = db_res.rows;
 
       results.forEach((v)=>{
-        time_sig_string += "<option value='"+ v.signature +"'>"+ v.signature + "</option>";
+        time_sig_string += "<option value='"+ v.signature +"'>"+ v.signature + "</option>\n";
       });
-
-      return time_sig_string;
+      res.write(time_sig_string);
+      res.end();
+      // return time_sig_string;
     }
   });
 }
 
-function accidental_info() {
+function accidental_info(req, res) {
   var sql = "SELECT accidental FROM accidental";
   var accidental_string = "";
   pool.query(sql, function(err, db_res) {
@@ -80,9 +84,11 @@ function accidental_info() {
       console.log(db_res.rows);
       var results = db_res.rows;
       results.forEach((v)=>{
-        accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>";
+        accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>\n";
       });
-      return accidental_string;
+      res.write(accidental_string);
+      res.end();
+      // return accidental_string;
     }
   });
 }
