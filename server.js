@@ -68,7 +68,6 @@ function time_sig_info(req, res){
       });
       res.write(time_sig_string);
       res.end();
-      // return time_sig_string;
     }
   });
 }
@@ -84,11 +83,10 @@ function accidental_info(req, res) {
       console.log(db_res.rows);
       var results = db_res.rows;
       results.forEach((v)=>{
-        accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>\n";
+      accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>" + v.accidental + "<br>\n";
       });
       res.write(accidental_string);
       res.end();
-      // return accidental_string;
     }
   });
 }
