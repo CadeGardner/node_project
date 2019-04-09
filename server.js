@@ -8,30 +8,23 @@ const pool = new Pool({connectionString: connectionString});
 //const controller = require("./controllers/piController.js")
 
 app.use(express.static("public"));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.get('/keys', key_sig_info);
 app.get('/timesignatures', time_sig_info);
 app.get('/accidentals', accidental_info);
+app.get('/createStaff', createStaff);
 app.listen(port, function() {
-  console.log('Server listening on: ' + port);
+console.log('Server listening on: ' + port);
 });
 
-function getQuizBuilder(req, res) {
-  time = time_sig_info();
-  key = key_sig_info();
-  accidental = accidental_info();
-  //res.write(time);
-  //res.write(time_sig_info());
-  //res.write(key_sig_info());
-  //res.write(accidental_info());
-  // console.log(time);
-  // console.log(key);
-  // console.log(accidental);
-  res.write("Please View the Console");
-  res.end();
-}
+//Controller
 
 function key_sig_info(req, res){
   var sql = "SELECT name FROM key_sig";
@@ -83,10 +76,20 @@ function accidental_info(req, res) {
       console.log(db_res.rows);
       var results = db_res.rows;
       results.forEach((v)=>{
-      accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>" + v.accidental + "<br>\n";
+      accidental_string += "<input type='radio' name='accidental' value='"+ v.accidental +"'>  " + v.accidental + "<br>\n";
       });
       res.write(accidental_string);
       res.end();
     }
   });
+}
+
+function createStaff(req, res){
+  const time_sig = req.query.tSignature;
+  const key_sig = req.query.kSignature;
+  const accidental = req.query.accSignature;
+
+  const params = {time_sig: time_sig, key_sig: key_sig, accidental: accidental};
+
+  res.render('pages/buildQuiz', params);
 }

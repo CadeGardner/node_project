@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Build your Music Quiz</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src=" https://unpkg.com/vexflow/releases/vexflow-debug.js"></script>
+    <script src=" https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
+
+  <style media="screen">
+    h2 {
+     color: white;
+     padding: 5px;
+    }
+
+    input[type=radio] {
+      padding-left: 12px;
+    }
+
+
+  </style>
+  </head>
+  <body>
+    <div class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <h1 class="container">Build your Quiz</h1>
+    </div>
+    <div class="container">
+
+      <div id="loop">
+
+      </div>
+      <div class="container">
+        <form class="" action="#" method="post">
+          <div>
+            <label for="duration">Duration: </label>
+            <select class="form-control"id="duration" name="duration">
+              <option value="">Whole</option>
+              <option value="">Half</option>
+              <option value="">Quarter</option>
+              <option value="">Eighth</option>
+            </select>
+          </div>
+
+          <div >
+            <label for="note"> Note: </label>
+            <select class="form-control" id="note" name="note">
+              <option value="">A</option>
+              <option value="">B</option>
+              <option value="">C</option>
+              <option value="">D</option>
+              <option value="">E</option>
+              <option value="">F</option>
+              <option value="">G</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="Stem direction">Stem Direction: </label>
+            <select class="form-control" name="">
+              <option value="">Up</option>
+              <option value="">Down</option>
+            </select><br>
+
+          </div>
+          <div>
+            <input type="radio" name="sharp" value="sharp">  Sharp
+            <input type="radio" name="natural" value="natural">  Natural
+            <input type="radio" name="flat" value="flat">  Flat<br>
+
+          </div>
+          <button class="btn-info" type="button" name="button">Add Note</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      var vf = new Vex.Flow.Factory({
+      renderer: {elementId: 'loop', width: 500, height: 200}
+    });
+
+    var score = vf.EasyScore();
+    var system = vf.System();
+
+    system.addStave({
+      voices: [
+    score.voice(score.notes('C#5/q, B4, A4, G#4', {stem: 'up'})),
+    score.voice(score.notes('C#4/h, C#4', {stem: 'down'}))
+  ]
+
+  }).addClef('treble').addTimeSignature('<%=time_sig %>');
+
+    vf.draw();
+    </script>
+  </body>
+</html>

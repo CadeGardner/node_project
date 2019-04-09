@@ -4,41 +4,44 @@
     <meta charset="utf-8">
     <title>Music Quiz Master</title>
     <script src="createQuiz_clientSide.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src=" https://unpkg.com/vexflow/releases/vexflow-debug.js"></script>
     <script src=" https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
 
+    <style media="screen">
+      h2 {
+       color: white;
+       padding: 5px;
+      }
+      input[type=radio] {
+        padding-right: 12px;
+      }
+    </style>
   </head>
   <body onload="loadStaff()">
-    <h2>Getting Started:</h2>
-    <form class="" action="index.html" method="post">
-      <label for="tSignature">Time Signature: </label>
-      <label for="kSignature"> Key Signature: </label>
-      <label for="accSignature">Accidental</label><br>
-      <select id="tSig-opts" name="tSignature"></select>
-      <select id="kSig_opts" name="kSignature"></select>
-      <div id="acc_opts" name="accSignature"></div>
-      <input type="submit" name="" value="Create Staff">
-    </form>
-    <div id="boo">
+    <div class="navbar-inverse">
+      <h2 class="container">Create Your Staff</h2>
     </div>
-    <script type="text/javascript">
-    var vf = new Vex.Flow.Factory({
-  renderer: {elementId: 'boo', width: 500, height: 200}
-});
+    <div class="container">
+      <form class="" action="/createStaff" method="get">
+        <div>
+          <label for="tSignature">Time Signature: </label>
+          <select class="form-control"id="tSig-opts" name="tSignature"></select>
+        </div>
 
-var score = vf.EasyScore();
-var system = vf.System();
+        <div >
+          <label for="kSignature"> Key Signature: </label>
+          <select class="form-control" id="kSig_opts" name="kSignature"></select>
+        </div>
 
-system.addStave({
-  voices: [
-    score.voice(score.notes('C#5/q, B4, A4, G#4', {stem: 'up'})),
-    score.voice(score.notes('C#4/h, C#4', {stem: 'down'}))
-  ]
-}).addClef('treble').addTimeSignature('4/4');
 
-vf.draw();
-    </script>
+        <label for="accSignature">Accidental: </label><br>
+        <div class="form-horizontal" id="acc_opts" name="accSignature"></div>
+        <input class="btn-info" type="submit" name="" value="Create Staff">
+      </form>
+    </div>
   </body>
 
   <!-- Key Sig,            | Time Sig,
